@@ -1,0 +1,8 @@
+# Ignore Python cache and virtual environment
+venv/
+__pycache__/
+app/__pycache__/
+
+# Ignore frontend build files
+frontend/node_modules/
+frontend/dist/
