@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+// Background Gradient
+.hero-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  text-align: left;
+  padding: 40px;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  .content {
+    flex: 1;
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    p {
+      font-size: 1.3rem;
+      font-weight: 300;
+      margin-top: 15px;
+    }
+  }
+
+  // Login Box Styling
+  .login-box {
+    width: 380px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    color: white;
+
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+
+      label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 1rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+      border: none;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      border-radius: 8px;
+      transition: 0.3s;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+
+      &:hover {
+        background: linear-gradient(135deg, #e56b4c 0%, #fd9e63 100%);
+        transform: scale(1.05);
+      }
+    }
+
+    .register-text {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 400;
+      a {
+        color: #ffcc00;
+        font-weight: bold;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Footer Styling
+.footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 0.9rem;
+
+  p {
+    margin: 5px 0;
+    font-weight: 300;
+  }
+
+  a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

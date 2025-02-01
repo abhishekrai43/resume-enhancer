@@ -3,10 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from app.config import Config
 from flask_cors import CORS
+from flask_migrate import Migrate
 # Initialize extensions
-db = SQLAlchemy() 
-jwt = JWTManager()  
-
+db = SQLAlchemy()
+jwt = JWTManager()
+migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -14,7 +15,9 @@ def create_app():
     # Initialize extensions
     db.init_app(app)
     jwt.init_app(app)
+    migrate.init_app(app, db) 
     CORS(app)
+
     # Register Blueprints
     from app.routes.auth_routes import auth_routes
     from app.routes.resume_routes import resume_routes
@@ -22,4 +25,3 @@ def create_app():
     app.register_blueprint(resume_routes, url_prefix="/resume")
 
     return app
-
