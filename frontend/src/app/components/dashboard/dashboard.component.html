@@ -1,0 +1,75 @@
+<section class="dashboard">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="profile-section">
+      <!-- Clickable profile picture -->
+      <label for="profilePicInput">
+        <img 
+          [src]="profilePicData || 'assets/profile-placeholder.png'" 
+          alt="User" class="profile-pic" 
+          title="Click to upload a new profile picture"
+        >
+      </label>
+      <input 
+        type="file" 
+        id="profilePicInput" 
+        (change)="onProfilePicSelected($event)" 
+        accept="image/*" 
+        hidden
+      >
+      <span class="username">{{ userName }}</span>
+    </div>
+    <button class="btn-signout" (click)="signOut()">Sign Out</button>
+  </header>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h3>Your Resumes</h3>
+      <ul>
+        <li 
+          *ngFor="let resume of resumes" 
+          (click)="selectResume(resume)" 
+          [class.active]="resume === selectedResume"
+        >
+          {{ resume.title }}
+        </li>
+      </ul>
+      <div class="upload-box">
+        <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+        <button class="btn-upload" (click)="uploadResume()">Upload New Resume</button>
+      </div>
+    </aside>
+
+    <!-- Resume Preview & Enhance -->
+    <main class="resume-preview">
+      <h2 *ngIf="selectedResume">Preview: {{ selectedResume.title }}</h2>
+      <div class="resume-content" *ngIf="selectedResume">
+        <embed [src]="selectedResume.file_url" type="application/pdf" width="100%" height="500px">
+      </div>
+
+      <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
+
+      <!-- Enhancement Animation -->
+      <div class="enhancement-animation" *ngIf="isEnhancing">
+        <p>{{ enhancementStep }}</p>
+        <div class="bouncing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Download Enhanced Resume -->
+      <div *ngIf="processedResumeUrl" class="download-box">
+        <a [href]="processedResumeUrl" download class="btn-download">Download Enhanced Resume</a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal for messages -->
+  <div id="customModal" class="custom-modal">
+    <div class="modal-content">
+      <p id="modalText"></p>
+    </div>
+  </div>
+</section>

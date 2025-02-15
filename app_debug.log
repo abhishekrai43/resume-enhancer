@@ -1,0 +1,464 @@
+2025-02-15 14:41:06,182 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:58]
+2025-02-15 14:41:09,860 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:58]
+2025-02-15 14:41:13,407 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:58]
+2025-02-15 14:41:13,407 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:58]
+2025-02-15 14:45:07,415 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:10,901 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:13,690 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:17,412 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:21,936 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:25,552 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:45:29,211 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:45:29,218 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:45:29,219 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:45:29,220 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:45:29,248 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:45:29,253 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:45:29,254 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:45:29,554 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:45:29,554 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:45:29,555 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:45:58,814 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:46:02,356 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:46:06,774 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:46:10,284 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:46:13,969 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:46:13,978 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:46:13,978 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:46:13,979 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:46:14,008 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:46:14,010 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:46:14,011 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:46:14,317 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:46:14,319 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:46:14,319 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:48:08,195 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:48:11,789 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:48:23,440 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:48:27,109 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:48:42,933 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:48:46,708 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:49:20,149 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:49:23,668 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:61]
+2025-02-15 14:49:38,829 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:49:38,838 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:49:38,838 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:49:38,840 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:49:39,089 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:49:39,091 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:49:39,091 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:49:39,168 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:68]
+2025-02-15 14:49:39,170 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:72]
+2025-02-15 14:49:39,171 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:02,614 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:71]
+2025-02-15 14:52:06,404 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:71]
+2025-02-15 14:52:16,679 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:16,685 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:16,687 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:16,688 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:16,910 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:16,911 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:16,912 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:92]
+2025-02-15 14:52:17,019 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:17,021 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:17,022 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:92]
+2025-02-15 14:52:25,255 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:25,256 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:25,592 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Content-Length: 75149
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Sec-Ch-Ua-Mobile: ?0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Dnt: 1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarymaCmLeiMgfbAX3zR
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:78]
+2025-02-15 14:52:25,595 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:82]
+2025-02-15 14:52:25,595 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:92]
+2025-02-15 15:04:52,562 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:73]
+2025-02-15 15:04:56,213 [INFO] Logging is set up! [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:73]
+2025-02-15 15:05:00,436 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:00,444 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: GET
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:00,445 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:00,447 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:00,691 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:00,692 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:00,692 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:94]
+2025-02-15 15:05:00,785 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Dnt: 1
+Sec-Ch-Ua-Mobile: ?0
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:00,787 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:00,788 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:94]
+2025-02-15 15:05:07,880 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Accept: */*
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: authorization
+Origin: http://localhost:4200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:07,882 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:08,219 [INFO] Headers: Host: localhost:5001
+Connection: keep-alive
+Content-Length: 10004
+Sec-Ch-Ua-Platform: "Windows"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczOTYwMTA2MCwianRpIjoiNmYxNmY3ODctNDUxMy00MjY2LTg3NjYtY2EwYTk3ZTEzYWViIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6NiwibmJmIjoxNzM5NjAxMDYwLCJjc3JmIjoiYWU0YTE5YTItZjdlMS00YTIwLTllZGYtYjQ2ZGUzZjc3N2ZlIiwiZXhwIjoxNzM5NjAxOTYwfQ.PcPtlllyF-MG64JsKSwVZL-0vuirk9zpSCIWgelTm6A
+Sec-Ch-Ua: "Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"
+Sec-Ch-Ua-Mobile: ?0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36
+Accept: application/json, text/plain, */*
+Dnt: 1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryiYOD0QmN3sgAQU3K
+Origin: http://localhost:4200
+Sec-Fetch-Site: same-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://localhost:4200/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+ [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:80]
+2025-02-15 15:05:08,221 [INFO] Request does not contain JSON data [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:84]
+2025-02-15 15:05:08,221 [ERROR] JWT Decode Error: Subject must be a string [in D:\Resume_Enhancer_Final\resume-enhancer\app\__init__.py:94]
+2025-02-15 15:19:44,482 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:72]
+2025-02-15 15:19:49,197 [INFO] Logging is set up! [in D:\RESUME_ENHANCER_FINAL\resume-enhancer\app\__init__.py:58]

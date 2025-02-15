@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { appRoutes } from './app.routes'; // Ensure this file exists
 
-@NgModule({
-  declarations: [],
-  imports: [BrowserModule], 
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()), // Replaces HttpClientModule
+    provideRouter(appRoutes)
+  ]
+}).catch(err => console.error(err));
