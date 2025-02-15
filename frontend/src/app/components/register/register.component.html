@@ -1,0 +1,25 @@
+<h2 class="register-title">Create Your Account</h2>
+<form (ngSubmit)="onRegister()" #registerForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" class="form-control" [(ngModel)]="registerData.name" name="name" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" class="form-control" [(ngModel)]="registerData.email" name="email" required>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" class="form-control" [(ngModel)]="registerData.password" name="password" required>
+  </div>
+  <button type="submit" class="btn-register" [disabled]="registerForm.invalid">Register</button>
+</form>
+
+<!-- ✅ Success Modal (Only Visible After Registration) -->
+<div class="modal-overlay" *ngIf="registrationSuccess">
+  <div class="modal-content">
+    <h3>🎉 Registration Successful!</h3>
+    <p>Welcome, {{ registerData.name }}! Your account has been created.</p>
+    <button class="btn-ok" (click)="onSuccessModalOk()">OK</button>
+  </div>
+</div>

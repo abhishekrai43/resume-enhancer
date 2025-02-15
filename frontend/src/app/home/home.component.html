@@ -1,37 +1,48 @@
-<!-- Hero Section -->
 <section class="hero-section">
-    <div class="container">
-      <div class="content">
-        <h1>Enhance Your Resume with AI</h1>
-        <p>Upload your resume, and let AI transform it into a professional masterpiece.</p>
-      </div>
-  
-      <!-- Login Form -->
-      <div class="login-box">
-        <h3 class="text-center">Login</h3>
-        <form>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" placeholder="Enter your email">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" placeholder="Enter your password">
-          </div>
-          <button type="submit" class="btn-login">Login</button>
-          <p class="register-text">
-            Don't have an account? <a href="#" (click)="toggleRegisterModal()">Register</a>
-          </p>
-        </form>
-      </div>
+  <div class="container">
+    <div class="content">
+      <h1>Enhance Your Resume with AI</h1>
+      <p>Upload your resume, and let AI transform it into a professional masterpiece.</p>
     </div>
-  </section>
-  
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2025 <strong>Abhishek Rai</strong>. All Rights Reserved.</p>
-    <p><strong>Abhi Global IT Solutions</strong></p>
-    <p>1234 Elm Street, San Francisco, CA 94102, USA</p>
-    <p>Email: <a href="mailto:contact&#64;abhi-global.com">contact&#64;abhi-global.com</a> | Phone: +1 (415) 123-4567</p>
-  </footer>
-  
+
+    <!-- ✅ Login Form -->
+    <div class="login-box">
+      <h3 class="text-center">Login</h3>
+      <form (ngSubmit)="onLogin()">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" [(ngModel)]="loginData.email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" [(ngModel)]="loginData.password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+        <p class="register-text">
+          Don't have an account? <a href="#" (click)="toggleRegisterModal()">Register</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ Modal for Success/Error Messages -->
+<div class="app-modal" *ngIf="showModal">
+  <div class="modal-content" [ngClass]="{'success': modalType === 'success', 'error': modalType === 'error'}">
+    <p>{{ modalMessage }}</p>
+    <button (click)="showModal = false" class="modal-btn">OK</button>
+  </div>
+</div>
+
+<!-- ✅ Register Modal -->
+<div class="modal-overlay" *ngIf="showRegisterModal">
+  <div class="modal-content">
+    <span class="close" (click)="toggleRegisterModal()">&times;</span>
+    <ng-container *ngComponentOutlet="registerComponent"></ng-container>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>© 2025 Abhi Global IT Solutions. All Rights Reserved.</p>
+</footer>
