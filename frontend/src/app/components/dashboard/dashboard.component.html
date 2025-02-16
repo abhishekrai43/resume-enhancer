@@ -1,8 +1,9 @@
 <section class="dashboard">
+
   <!-- Header Section -->
   <header class="dashboard-header">
     <div class="profile-section">
-      <!-- Clickable profile picture -->
+      <!-- Profile Picture -->
       <label for="profilePicInput">
         <img 
           [src]="profilePicData || 'assets/profile-placeholder.png'" 
@@ -24,10 +25,11 @@
 
   <!-- Main Content -->
   <div class="dashboard-content">
+
     <!-- Sidebar -->
     <aside class="sidebar">
       <h3>Your Resumes</h3>
-      <ul>
+      <ul *ngIf="resumes.length > 0">
         <li 
           *ngFor="let resume of resumes" 
           (click)="selectResume(resume)" 
@@ -36,34 +38,52 @@
           {{ resume.title }}
         </li>
       </ul>
+
+      <!-- Upload Button (Combined) -->
       <div class="upload-box">
-        <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
-        <button class="btn-upload" (click)="uploadResume()">Upload New Resume</button>
+        <button class="btn-upload" (click)="triggerFileUpload()">Upload a Resume</button>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" hidden>
       </div>
     </aside>
 
-    <!-- Resume Preview & Enhance -->
+    <!-- Middle Section: Resume Preview -->
     <main class="resume-preview">
-      <h2 *ngIf="selectedResume">Preview: {{ selectedResume.title }}</h2>
-      <div class="resume-content" *ngIf="selectedResume">
-        <embed [src]="selectedResume.file_url" type="application/pdf" width="100%" height="500px">
+      <div class="preview-title">
+        <h2 *ngIf="selectedResume">Viewing: {{ selectedResume.title }}</h2>
+        <h2 *ngIf="resumes.length === 0">Upload a resume to begin</h2>
       </div>
 
-      <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
-
-      <!-- Enhancement Animation -->
-      <div class="enhancement-animation" *ngIf="isEnhancing">
+      <div class="pdf-container" *ngIf="selectedResume">
+        <embed [src]="safePdfUrl" type="application/pdf" class="pdf-full">
+      </div>
+      <div *ngIf="isEnhancing" class="enhancement-animation">
         <p>{{ enhancementStep }}</p>
         <div class="bouncing-dots">
           <span></span><span></span><span></span>
         </div>
       </div>
-
-      <!-- Download Enhanced Resume -->
-      <div *ngIf="processedResumeUrl" class="download-box">
-        <a [href]="processedResumeUrl" download class="btn-download">Download Enhanced Resume</a>
-      </div>
+      <!-- Enhance Button Positioned After Full PDF -->
+      <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
     </main>
+
+    <!-- Right Section: Insights -->
+    <div class="resume-insights">
+      <h3>🔍 Insights</h3>
+      <div class="insights-section">
+        <h4>❌ Errors</h4>
+        <ul class="error-list">
+          <li *ngFor="let error of errors">{{ error }}</li>
+          <li *ngIf="errors.length === 0" class="empty-text">No errors found.</li>
+        </ul>
+        <h4>✨ Improvements</h4>
+        <ul class="improvement-list">
+          <li *ngFor="let improvement of improvements">{{ improvement }}</li>
+          <li *ngIf="improvements.length === 0" class="empty-text">No improvements suggested.</li>
+        </ul>
+      </div>
+    </div>
+
+
   </div>
 
   <!-- Modal for messages -->
@@ -72,4 +92,5 @@
       <p id="modalText"></p>
     </div>
   </div>
+
 </section>
