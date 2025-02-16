@@ -13,7 +13,6 @@ from app import db
 import io
 
 resume_routes = Blueprint('resume_routes', __name__)
-openai.api_key = 
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
