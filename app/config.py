@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-
+from datetime import timedelta
 # Load environment variables from .env file
 load_dotenv()
 
@@ -10,4 +10,5 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "xyz3452@")
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "uploads")
     JWT_SECRET_KEY = "TEST@123"
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=24)
 

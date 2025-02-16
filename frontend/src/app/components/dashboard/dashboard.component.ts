@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -20,8 +20,12 @@ export class DashboardComponent implements OnInit {
   enhancementStep = '';
   processedResumeUrl: string = '';
   apiUrl = 'http://localhost:5001/resume';
+  safePdfUrl: SafeResourceUrl = '';
+  // Add these properties for errors & improvements
+  errors: string[] = ['Spelling mistake in section 2', 'Missing contact info'];
+  improvements: string[] = ['Add more action verbs', 'Include measurable achievements'];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     const token = localStorage.getItem('access_token');
@@ -77,6 +81,33 @@ export class DashboardComponent implements OnInit {
   // Handle file selection for resume upload
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('resume_file', this.selectedFile);
+      formData.append('title', this.selectedFile.name);
+  
+      this.http.post(`${this.apiUrl}/upload`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+      }).subscribe({
+        next: (data: any) => {
+          const fileName = this.selectedFile?.name || 'Unnamed File'; // Safe access with fallback
+          this.resumes.push({
+            id: data.id,
+            title: fileName,
+            file_url: data.file_url
+          });
+      
+          // Auto-select the uploaded file if present
+          if (this.resumes.length > 0) {
+            this.selectResume(this.resumes[this.resumes.length - 1]);
+          }
+        },
+        error: (error) => {
+          console.error('Failed to upload resume:', error);
+          this.showModal('Failed to upload resume.');
+        }
+      });
+    }
   }
 
   // Upload a new resume
@@ -107,9 +138,27 @@ export class DashboardComponent implements OnInit {
   // Select a resume for preview
   selectResume(resume: any) {
     this.selectedResume = resume;
+  
+    const token = localStorage.getItem('access_token');
+  
+    // Fetch PDF as blob with Authorization header
+    this.http.get(`${this.apiUrl}/download/${resume.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'blob'
+    }).subscribe({
+      next: (blob) => {
+        const pdfUrl = URL.createObjectURL(blob);
+        this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+      },
+      error: (error) => {
+        console.error('Failed to load PDF:', error);
+      }
+    });
   }
-
+  
+  
   // Enhance the selected resume with an animation
+
   enhanceResume() {
     if (!this.selectedResume) {
       this.showModal('Please select a resume to enhance.');
@@ -119,10 +168,10 @@ export class DashboardComponent implements OnInit {
     this.isEnhancing = true;
     const steps = [
       'Analyzing structure...',
-      'Improving grammar...',
-      'Adding industry-specific keywords...',
-      'Enhancing formatting...',
-      'Finalizing AI-enhanced resume...'
+      'Checking spelling...',
+      'Improving formatting...',
+      'Adding keywords...',
+      'Finalizing...'
     ];
 
     let stepIndex = 0;
@@ -132,19 +181,40 @@ export class DashboardComponent implements OnInit {
 
       if (stepIndex >= steps.length) {
         clearInterval(interval);
-        this.isEnhancing = false;
-        this.processedResumeUrl = `${this.apiUrl}/download/${this.selectedResume.id}`;
-        this.showModal('Resume enhanced successfully!');
       }
     }, 1500);
-  }
+
+    // Call backend API
+    const token = localStorage.getItem('access_token');
+    this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (response: any) => {
+        this.errors = response.misspelled_words || [];
+        this.improvements = response.improvements || [];
+        this.showModal(response.message);
+        this.isEnhancing = false;
+      },
+      error: (error) => {
+        console.error('Failed to enhance resume:', error);
+        this.showModal('Failed to enhance resume.');
+        this.isEnhancing = false;
+      }
+    });
+}
+
 
   // Sign out the user
   signOut() {
     localStorage.removeItem('access_token');
     window.location.href = '/';
   }
+// Function to trigger file input click
+triggerFileUpload() {
+  (document.getElementById('fileInput') as HTMLInputElement)!.click();
+}
 
+  
   // Display a modal message
   showModal(message: string) {
     const modal = document.getElementById('customModal');
