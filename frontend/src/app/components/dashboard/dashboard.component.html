@@ -3,21 +3,13 @@
   <!-- Header Section -->
   <header class="dashboard-header">
     <div class="profile-section">
-      <!-- Profile Picture -->
       <label for="profilePicInput">
         <img 
           [src]="profilePicData || 'assets/profile-placeholder.png'" 
           alt="User" class="profile-pic" 
-          title="Click to upload a new profile picture"
-        >
+          title="Click to upload a new profile picture">
       </label>
-      <input 
-        type="file" 
-        id="profilePicInput" 
-        (change)="onProfilePicSelected($event)" 
-        accept="image/*" 
-        hidden
-      >
+      <input type="file" id="profilePicInput" (change)="onProfilePicSelected($event)" accept="image/*" hidden>
       <span class="username">{{ userName }}</span>
     </div>
     <button class="btn-signout" (click)="signOut()">Sign Out</button>
@@ -30,16 +22,10 @@
     <aside class="sidebar">
       <h3>Your Resumes</h3>
       <ul *ngIf="resumes.length > 0">
-        <li 
-          *ngFor="let resume of resumes" 
-          (click)="selectResume(resume)" 
-          [class.active]="resume === selectedResume"
-        >
+        <li *ngFor="let resume of resumes" (click)="selectResume(resume)" [class.active]="resume === selectedResume">
           {{ resume.title }}
         </li>
       </ul>
-
-      <!-- Upload Button (Combined) -->
       <div class="upload-box">
         <button class="btn-upload" (click)="triggerFileUpload()">Upload a Resume</button>
         <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" hidden>
@@ -54,35 +40,51 @@
       </div>
 
       <div class="pdf-container" *ngIf="selectedResume">
-        <embed [src]="safePdfUrl" type="application/pdf" class="pdf-full">
+        <iframe [src]="safePdfUrl" type="application/pdf" class="pdf-full"></iframe>
       </div>
+
       <div *ngIf="isEnhancing" class="enhancement-animation">
         <p>{{ enhancementStep }}</p>
         <div class="bouncing-dots">
           <span></span><span></span><span></span>
         </div>
       </div>
+
       <!-- Enhance Button Positioned After Full PDF -->
       <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
     </main>
-
+    <button class="btn-download prominent" *ngIf="downloadUrl" (click)="downloadEnhancedResume()">
+      ⬇ Download Enhanced Resume
+    </button>
+    
     <!-- Right Section: Insights -->
     <div class="resume-insights">
       <h3>🔍 Insights</h3>
+
       <div class="insights-section">
         <h4>❌ Errors</h4>
         <ul class="error-list">
           <li *ngFor="let error of errors">{{ error }}</li>
           <li *ngIf="errors.length === 0" class="empty-text">No errors found.</li>
         </ul>
+
         <h4>✨ Improvements</h4>
         <ul class="improvement-list">
           <li *ngFor="let improvement of improvements">{{ improvement }}</li>
           <li *ngIf="improvements.length === 0" class="empty-text">No improvements suggested.</li>
         </ul>
+
+        <h4>📜 Changes (Before → After)</h4>
+        <table class="changes-table">
+          <tr *ngFor="let change of changes">
+            <td class="before-text" style="color: red; font-weight: bold;">{{ change.before }}</td>
+            <td class="arrow">➡</td>
+            <td class="after-text" style="color: green; font-weight: bold;">{{ change.after }}</td>
+          </tr>
+          
+        </table>        
       </div>
     </div>
-
 
   </div>
 

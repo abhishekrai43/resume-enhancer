@@ -17,7 +17,11 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, supports_credentials=True, origins=["http://localhost:4200"])
+    CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, 
+     supports_credentials=True, 
+     allow_headers=["Content-Type", "Authorization"], 
+     expose_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
     # ✅ Push app context globally to prevent "None" errors
     
@@ -35,3 +39,4 @@ def create_app():
 # ✅ Push the app context at the global level when Flask starts
 app = create_app()
 app.app_context().push()  # ⬅️ This ensures all db.session calls are in context
+

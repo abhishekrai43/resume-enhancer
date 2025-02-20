@@ -22,9 +22,10 @@ export class DashboardComponent implements OnInit {
   apiUrl = 'http://localhost:5001/resume';
   safePdfUrl: SafeResourceUrl = '';
   // Add these properties for errors & improvements
-  errors: string[] = ['Spelling mistake in section 2', 'Missing contact info'];
-  improvements: string[] = ['Add more action verbs', 'Include measurable achievements'];
-
+  errors: string[] = [];
+  improvements: string[] = [];
+  changes: { before: string; after: string }[] = [];
+  downloadUrl: string = ''; 
   constructor(private http: HttpClient,private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
@@ -138,34 +139,34 @@ export class DashboardComponent implements OnInit {
   // Select a resume for preview
   selectResume(resume: any) {
     this.selectedResume = resume;
-  
     const token = localStorage.getItem('access_token');
-  
-    // Fetch PDF as blob with Authorization header
+
     this.http.get(`${this.apiUrl}/download/${resume.id}`, {
       headers: { Authorization: `Bearer ${token}` },
-      responseType: 'blob'
+      responseType: 'blob' // Ensure binary response
     }).subscribe({
       next: (blob) => {
         const pdfUrl = URL.createObjectURL(blob);
         this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
       },
       error: (error) => {
-        console.error('Failed to load PDF:', error);
+        console.error("Failed to load PDF:", error);
       }
     });
-  }
-  
+}
+
   
   // Enhance the selected resume with an animation
 
   enhanceResume() {
     if (!this.selectedResume) {
-      this.showModal('Please select a resume to enhance.');
-      return;
+        this.showModal('Please select a resume to enhance.');
+        return;
     }
 
     this.isEnhancing = true;
+
+    // Enhancement Steps Animation
     const steps = [
       'Analyzing structure...',
       'Checking spelling...',
@@ -175,33 +176,75 @@ export class DashboardComponent implements OnInit {
     ];
 
     let stepIndex = 0;
-    const interval = setInterval(() => {
-      this.enhancementStep = steps[stepIndex];
-      stepIndex++;
+    this.enhancementStep = steps[stepIndex];
 
-      if (stepIndex >= steps.length) {
-        clearInterval(interval);
-      }
+    const interval = setInterval(() => {
+        stepIndex++;
+        if (stepIndex < steps.length) {
+            this.enhancementStep = steps[stepIndex];
+        } else {
+            clearInterval(interval);
+        }
     }, 1500);
 
     // Call backend API
-    const token = localStorage.getItem('access_token');
     this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            "Content-Type": "application/json"
+        },
+        withCredentials: true
     }).subscribe({
-      next: (response: any) => {
-        this.errors = response.misspelled_words || [];
-        this.improvements = response.improvements || [];
-        this.showModal(response.message);
-        this.isEnhancing = false;
-      },
-      error: (error) => {
-        console.error('Failed to enhance resume:', error);
-        this.showModal('Failed to enhance resume.');
-        this.isEnhancing = false;
-      }
+        next: (response: any) => {
+            // Populate Errors, Improvements, and Changes
+            this.errors = response.misspelled_words || [];
+            this.improvements = response.improvements || [];
+            if (Array.isArray(response.changes)) {
+              this.changes = response.changes.map((change: any) => {
+                if (typeof change === "string" && change.includes(" → ")) {
+                  const [before, after] = change.split(" → ");
+                  return { before: before.trim(), after: after.trim() };
+                } else if (typeof change === "object" && change.before && change.after) {
+                  return { before: change.before, after: change.after };
+                }
+                return { before: "Unknown", after: "Unknown" };
+              });
+            } else {
+              this.changes = [];
+            }
+            
+            this.downloadUrl = response.download_url;
+
+            // ✅ Update PDF Viewer with enhanced resume
+            if (this.downloadUrl) {
+              const token = localStorage.getItem('access_token');
+              console.log("Final Enhanced Resume URL:", this.downloadUrl);
+              this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.downloadUrl}?token=${token}`);
+            }
+            
+
+            // ✅ Show Completion Notification
+            this.showModal("✨ Your Resume has been Awesomefied! ✨");
+
+            this.isEnhancing = false;
+        },
+        error: (error) => {
+            console.error('Failed to enhance resume:', error);
+            this.showModal('Failed to enhance resume.');
+            this.isEnhancing = false;
+        }
     });
 }
+
+// Function to download enhanced resume
+downloadEnhancedResume() {
+  if (!this.downloadUrl) return;
+ 
+  const token = localStorage.getItem('access_token');
+  console.log("Download Token:", token);
+  window.open(`${this.downloadUrl}?token=${token}`, "_blank");
+}
+
 
 
   // Sign out the user
