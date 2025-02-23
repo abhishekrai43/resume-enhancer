@@ -19,7 +19,6 @@ resume_routes = Blueprint('resume_routes', __name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
 # ✅ Get User Resumes
 @resume_routes.route('/list', methods=['GET'])
 @jwt_required()
@@ -161,156 +160,138 @@ def download_resume(resume_id):
 def enhance_resume(resume_id):
     logging.debug(f"📌 Received enhancement request for resume ID: {resume_id}")
 
-    resume = db.session.get(Resume, resume_id)
-    logging.debug(f"✅ Resume fetched: {resume}")
+    try:
+        resume = db.session.get(Resume, resume_id)
+        if not resume:
+            logging.error("🚨 Resume not found.")
+            return jsonify({"error": "Resume not found"}), 404
 
-    if not resume:
-        logging.error("🚨 Resume not found.")
-        return jsonify({"error": "Resume not found"}), 404
+        # ✅ Save PDF Temporarily
+        temp_pdf_path = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}.pdf")
+        if os.path.exists(temp_pdf_path):
+            os.remove(temp_pdf_path)  # Remove existing file
 
-    # ✅ Save PDF Temporarily
-    temp_pdf_path = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}.pdf")
-    logging.debug(f"📌 Saving PDF: {temp_pdf_path}")
+        with open(temp_pdf_path, "wb") as f:
+            f.write(resume.file_data)
 
-    with open(temp_pdf_path, "wb") as f:
-        f.write(resume.file_data)
+        # ✅ Convert PDF to DOCX
+        docx_path = temp_pdf_path.replace(".pdf", ".docx")
+        cv = Converter(temp_pdf_path)
+        cv.convert(docx_path, start=0, end=None)
+        cv.close()
 
-    # ✅ Convert PDF to DOCX
-    docx_path = temp_pdf_path.replace(".pdf", ".docx")
-    logging.debug(f"📌 Converting to DOCX: {docx_path}")
+        # ✅ Extract text from DOCX
+        doc = Document(docx_path)
+        original_text = "\n".join([p.text for p in doc.paragraphs])
+        if not original_text.strip():
+            return jsonify({"error": "No text found in resume"}), 400
 
-    cv = Converter(temp_pdf_path)
-    cv.convert(docx_path, start=0, end=None)
-    cv.close()
-    logging.debug(f"✅ Converted PDF to DOCX: {docx_path}")
+        # ✅ Construct AI Prompt
+        prompt = (
+            "Enhance the following resume text. Correct spelling mistakes, improve grammar, and "
+            "make it ATS-friendly while preserving its original formatting. Provide a structured response "
+            "in the exact format below:\n\n"
+            
+            "**Enhanced Text:**\n"
+            "<Provide the fully rewritten resume text here>\n\n"
+            
+            "**Improvements:**\n"
+            "- <Bullet point of improvement>\n"
+            "- <Bullet point of improvement>\n\n"
+            
+            "**Changes (Before → After):**\n"
+            "<Original sentence> → <Enhanced sentence>\n"
+            "<Original sentence> → <Enhanced sentence>\n\n"
+            
+            "Resume Content:\n"
+            f"{original_text}"
+        )
 
-    # ✅ Extract text from DOCX
-    doc = Document(docx_path)
-    original_text = "\n".join([p.text for p in doc.paragraphs])
-    logging.debug(f"✅ Extracted Text Length: {len(original_text)} characters")
+        # ✅ Send Request to OpenAI
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": "You are a professional resume enhancer."},
+                      {"role": "user", "content": prompt}],
+            max_tokens=2048
+        )
 
-    if not original_text.strip():
-        logging.error("🚨 Extracted text is empty.")
-        return jsonify({"error": "No text found in resume"}), 400
+        ai_response = response.choices[0].message.content.strip()
+        logging.debug(f"📌 AI Response Preview: {ai_response[:100]}...")
 
-    # ✅ Identify spelling mistakes
-    spell = SpellChecker()
-    words = original_text.split()
-    misspelled = list(spell.unknown(words))
-    logging.debug(f"✅ Misspelled words found: {misspelled}")
+        # ✅ Parse AI Response (Extract Sections)
+        sections = {"enhanced_text": "", "improvements": [], "changes": []}
 
-    # ✅ Construct AI Prompt
-    logging.debug("📡 Preparing AI prompt...")
+        if "**Enhanced Text:**" in ai_response:
+            parts = ai_response.split("**Enhanced Text:**")[1]
 
-    prompt = (
-        "Enhance the following resume text. Correct spelling mistakes, improve grammar, and "
-        "make it ATS-friendly while preserving its original formatting. Provide a structured response "
-        "in the exact format below:\n\n"
-        "**Enhanced Text:**\n"
-        "<Provide the fully rewritten resume text here>\n\n"
-        "**Improvements:**\n"
-        "- <Bullet point of improvement>\n"
-        "- <Bullet point of improvement>\n\n"
-        "**Changes (Before → After):**\n"
-        "<Original sentence> → <Enhanced sentence>\n"
-        "<Original sentence> → <Enhanced sentence>\n\n"
-        "Text:\n"
-        f"{original_text}"
-    )
+            if "**Improvements:**" in parts:
+                sections["enhanced_text"], parts = parts.split("**Improvements:**", 1)
+            if "**Changes (Before → After):**" in parts:
+                sections["improvements"], sections["changes"] = parts.split("**Changes (Before → After):**", 1)
 
-    # ✅ Send Request to OpenAI
-    logging.debug("📡 Sending request to OpenAI...")
-    
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": "You are a professional resume enhancer."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=2048
-    )
+            sections["enhanced_text"] = sections["enhanced_text"].strip()
+            sections["improvements"] = [i.strip("- ") for i in sections["improvements"].strip().split("\n") if i]
+            sections["changes"] = [{"before": c.split("→")[0].strip(), "after": c.split("→")[1].strip()} 
+                                   for c in sections["changes"].strip().split("\n") if "→" in c]
+        else:
+            return jsonify({"error": "AI response missing required sections"}), 500
 
-    logging.debug("✅ OpenAI Response Received")
-    ai_response = response.choices[0].message.content.strip()
-    logging.debug(f"📌 AI Response Preview: {ai_response[:100]}...")
+        # ✅ Insert Enhanced Text Back into DOCX (Only Resume Content)
+        doc.paragraphs.clear()
+        for line in sections["enhanced_text"].split("\n"):
+            doc.add_paragraph(line)
+        doc.save(docx_path)
 
-    # ✅ Parse AI Response
-    logging.debug(f"Full OpenAI Response: {ai_response}")
+        # ✅ Convert DOCX Back to PDF
+        final_pdf_path = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}-enhanced.pdf")
 
-    sections = {
-        "enhanced_text": "",
-        "improvements": [],
-        "changes": []
-    }
+        def convert_docx_to_pdf(docx_path, pdf_path):
+            word = win32com.client.Dispatch("Word.Application")
+            doc = word.Documents.Open(docx_path)
+            doc.SaveAs(pdf_path, FileFormat=17)  # 17 = PDF format
+            doc.Close()
+            word.Quit()
+            if not os.path.exists(pdf_path):
+                raise RuntimeError(f"MS Word failed to generate PDF: {pdf_path}")
 
-    if "**Enhanced Text:**" in ai_response:
-        parts = ai_response.split("**Enhanced Text:**")[1]
-        if "**Improvements:**" in parts:
-            sections["enhanced_text"], parts = parts.split("**Improvements:**", 1)
-        if "**Changes (Before → After):**" in parts:
-            sections["improvements"], sections["changes"] = parts.split("**Changes (Before → After):**", 1)
+        convert_docx_to_pdf(docx_path, final_pdf_path)
 
-        sections["enhanced_text"] = sections["enhanced_text"].strip()
-        sections["improvements"] = [i.strip("- ") for i in sections["improvements"].strip().split("\n") if i]
-        sections["changes"] = [{"before": c.split("→")[0].strip(), "after": c.split("→")[1].strip()} for c in sections["changes"].strip().split("\n") if "→" in c]
-    else:
-        logging.error("🚨 AI response missing required sections.")
-        return jsonify({"error": "AI response missing required sections"}), 500
+        # ✅ Handle Windows Auto-Adding `_1` to Filenames
+        enhanced_filename = f"resume_{resume_id}-enhanced.pdf"
+        if not os.path.exists(final_pdf_path):
+            alternative_filename = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}-enhanced_1.pdf")
+            if os.path.exists(alternative_filename):
+                final_pdf_path = alternative_filename
+                enhanced_filename = f"resume_{resume_id}-enhanced_1.pdf"
 
-    # ✅ Insert Enhanced Text Back into DOCX
-    doc.paragraphs.clear()
-    for line in sections["enhanced_text"].split("\n"):
-        doc.add_paragraph(line)
-    doc.save(docx_path)
-    logging.debug(f"✅ Enhanced DOCX saved: {docx_path}")
+        # ✅ Read Enhanced PDF into Binary
+        with open(final_pdf_path, "rb") as f:
+            enhanced_pdf_data = f.read()
 
-    # ✅ Convert DOCX Back to PDF
-    final_pdf_path = temp_pdf_path.replace(".pdf", "-enhanced.pdf")
+        # ✅ Save to database
+        resume.enhanced_text = sections["enhanced_text"]
+        resume.improvements = ",".join(sections["improvements"])
+        resume.changes = sections["changes"]
+        resume.enhanced_filename = enhanced_filename
+        resume.enhanced_file_data = enhanced_pdf_data
 
-    logging.debug(f"🚀 Starting DOCX to PDF conversion: {docx_path} -> {final_pdf_path}")
+        db.session.commit()
 
-    def convert_docx_to_pdf(docx_path, pdf_path):
-        logging.debug(f"📌 Converting DOCX to PDF using MS Word: {docx_path}")
-        word = win32com.client.Dispatch("Word.Application")
-        doc = word.Documents.Open(docx_path)
-        doc.SaveAs(pdf_path, FileFormat=17)  # 17 = PDF format
-        doc.Close()
-        word.Quit()
-        logging.debug(f"✅ DOCX successfully converted to PDF: {pdf_path}")
+        return jsonify({
+            "message": "Resume enhanced successfully!",
+            "improvements": sections["improvements"],
+            "changes": sections["changes"],
+            "download_url": f"http://localhost:5001/resume/download/{enhanced_filename}"
+        })
 
-    convert_docx_to_pdf(docx_path, final_pdf_path)
+    except Exception as e:
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
 
-    # ✅ Read Enhanced PDF into Binary
-    with open(final_pdf_path, "rb") as f:
-        enhanced_pdf_data = f.read()
-    
-    logging.debug(f"✅ Successfully read enhanced PDF ({len(enhanced_pdf_data)} bytes)")
-
-    # ✅ Save to database
-    logging.debug(f"📌 Saving enhancements to database for Resume ID: {resume_id}")
-
-    resume.enhanced_text = sections["enhanced_text"]
-    resume.misspelled_words = ",".join(misspelled)
-    resume.improvements = ",".join(sections["improvements"])
-    resume.changes = sections["changes"]
-    resume.enhanced_filename = f"{resume_id}-enhanced.pdf"
-    resume.enhanced_file_data = enhanced_pdf_data
-
-    db.session.commit()
-    logging.debug(f"✅ Enhancement data successfully saved!")
-
-    return jsonify({
-        "message": "Resume enhanced successfully!",
-        "misspelled_words": misspelled,
-        "improvements": sections["improvements"],
-        "changes": sections["changes"],
-        "download_url": f"http://localhost:5001/resume/download/{resume_id}-enhanced"
-    })
 
 @resume_routes.route("/download/<string:filename>", methods=["GET"])
 def download_enhanced_resume(filename):
     """Serves the enhanced resume PDF with token authentication."""
-    
+
     token = request.args.get("token")
     if not token:
         logging.error("Missing token in download request.")
@@ -325,23 +306,32 @@ def download_enhanced_resume(filename):
         logging.error(f"Invalid token: {str(e)}")
         return jsonify({"error": f"Invalid token: {str(e)}"}), 401
 
+    # Ensure the filename includes .pdf
+    if not filename.endswith(".pdf"):
+        filename += ".pdf"
+
     # Fetch resume from database
     resume = db.session.query(Resume).filter(Resume.enhanced_filename == filename).first()
     if not resume:
-        logging.error(f"Resume {filename} not found in database.")
+        logging.error(f"🚨 Resume {filename} not found in database.")
         return jsonify({"error": "Unauthorized or file not found"}), 403
 
     if resume.user_id != int(user_id):
-        logging.error(f"User {user_id} is not authorized to access {filename}")
+        logging.error(f"🚨 User {user_id} is not authorized to access {filename}")
         return jsonify({"error": "Unauthorized access"}), 403
 
-    # Serve PDF
+    # ✅ Handle Windows Auto-Adding `_1` to Filenames
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     if not os.path.exists(file_path):
-        logging.error(f"File not found: {file_path}")
+        alternative_filename = os.path.join(UPLOAD_FOLDER, filename.replace(".pdf", "_1.pdf"))
+        if os.path.exists(alternative_filename):
+            file_path = alternative_filename
+            logging.info(f"✅ Found alternative filename: {file_path}")
+
+    if not os.path.exists(file_path):
+        logging.error(f"🚨 File not found: {file_path}")
         return jsonify({"error": "File not found"}), 404
 
-    logging.info(f"Serving file: {file_path} for user {user_id}")
+    logging.info(f"✅ Serving file: {file_path} for user {user_id}")
     return send_file(file_path, mimetype="application/pdf", as_attachment=True)
-
 
