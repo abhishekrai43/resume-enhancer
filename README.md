@@ -51,6 +51,7 @@ Resume Enhancer with AI is a **modern web application** that allows users to **u
 ✔️ Node.js & Angular CLI  
 ✔️ Python 3.10+  
 ✔️ PostgreSQL  
+✔️ MS-Office 
 
 ### **1️⃣ Clone the Repository**
 ```bash
