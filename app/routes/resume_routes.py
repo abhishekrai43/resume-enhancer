@@ -245,14 +245,21 @@ def enhance_resume(resume_id):
         # ✅ Convert DOCX Back to PDF
         final_pdf_path = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}-enhanced.pdf")
 
+        import pythoncom
+
         def convert_docx_to_pdf(docx_path, pdf_path):
-            word = win32com.client.Dispatch("Word.Application")
-            doc = word.Documents.Open(docx_path)
-            doc.SaveAs(pdf_path, FileFormat=17)  # 17 = PDF format
-            doc.Close()
-            word.Quit()
-            if not os.path.exists(pdf_path):
-                raise RuntimeError(f"MS Word failed to generate PDF: {pdf_path}")
+            pythoncom.CoInitialize()  # ✅ Initialize COM
+
+            try:
+                word = win32com.client.Dispatch("Word.Application")
+                doc = word.Documents.Open(docx_path)
+                doc.SaveAs(pdf_path, FileFormat=17)  # 17 = PDF format
+                doc.Close()
+                word.Quit()
+            except Exception as e:
+                print(f"Error during DOCX to PDF conversion: {e}")
+            finally:
+                pythoncom.CoUninitialize()  # ✅ Uninitialize COM properly
 
         convert_docx_to_pdf(docx_path, final_pdf_path)
 

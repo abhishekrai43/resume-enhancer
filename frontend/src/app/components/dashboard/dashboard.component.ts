@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   resumes: any[] = [];
   selectedResume: any = null;
   isEnhancing = false;
+  isLoading = false;
   enhancementStep = '';
   processedResumeUrl: string = '';
   apiUrl = 'http://localhost:5001/resume';
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     const token = localStorage.getItem('access_token');
-
+    this.isLoading = true;
     // Fetch profile
     this.http.get<any>(`${this.apiUrl}/user-profile`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -50,9 +51,11 @@ export class DashboardComponent implements OnInit {
     }).subscribe({
       next: (data) => {
         this.resumes = data;
+        this.isLoading = false;
       },
       error: (error) => {
-        console.error('Failed to load resumes:', error);
+        this.showModal('Failed to load resumes:');
+        this.isLoading = false;
       }
     });
   }
@@ -81,6 +84,7 @@ export class DashboardComponent implements OnInit {
 
   // Handle file selection for resume upload
   onFileSelected(event: any) {
+    this.isLoading = true; 
     this.selectedFile = event.target.files[0];
     if (this.selectedFile) {
       const formData = new FormData();
@@ -102,10 +106,12 @@ export class DashboardComponent implements OnInit {
           if (this.resumes.length > 0) {
             this.selectResume(this.resumes[this.resumes.length - 1]);
           }
+          this.isLoading = false; 
         },
         error: (error) => {
           console.error('Failed to upload resume:', error);
           this.showModal('Failed to upload resume.');
+          this.isLoading = false; 
         }
       });
     }
@@ -139,6 +145,7 @@ export class DashboardComponent implements OnInit {
   // Select a resume for preview
   selectResume(resume: any) {
     this.selectedResume = resume;
+    this.isLoading = true
     const token = localStorage.getItem('access_token');
 
     this.http.get(`${this.apiUrl}/download/${resume.id}`, {
@@ -148,9 +155,11 @@ export class DashboardComponent implements OnInit {
       next: (blob) => {
         const pdfUrl = URL.createObjectURL(blob);
         this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+        this.isLoading = false
       },
       error: (error) => {
-        console.error("Failed to load PDF:", error);
+        this.showModal("Failed to load PDF:");
+        this.isLoading = false
       }
     });
 }
