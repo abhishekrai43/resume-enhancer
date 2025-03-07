@@ -18,11 +18,13 @@
       cursor: pointer;
 
       .profile-pic {
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         border: 2px solid white;
         margin-right: 15px;
+        margin-top: 15px;
+        margin-left: 15px;
         transition: transform 0.3s;
 
         &:hover {
@@ -107,7 +109,10 @@
     .resume-preview {
       flex: 2;
       padding: 20px;
-
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    
       .preview-title {
         text-align: center;
         margin-bottom: 15px;
@@ -115,23 +120,26 @@
         font-size: 1.5rem;
         padding-top: 10px;
       }
-
+    
       .pdf-container {
-        margin-top: 20px;
+        flex-grow: 1; // Allow PDF to grow but not push the button down
+        overflow: hidden;
         border: 3px solid #0288d1;
         border-radius: 10px;
+        height: calc(100vh - 250px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
+        
         .pdf-full {
           width: 100%;
-          height: auto;
-          min-height: 800px;
+          height: calc(100vh - 220px); // Ensure it fits within the viewport
         }
       }
 
       .btn-enhance {
-        display: block;
-        margin: 30px auto;
+        position: absolute;  // Keep button fixed within the preview area
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
         padding: 15px 30px;
         font-size: 1.2rem;
         color: white;
@@ -140,6 +148,10 @@
         border-radius: 6px;
         cursor: pointer;
         transition: 0.3s;
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+    
 
         &:hover {
           background: linear-gradient(45deg, #009624, #006400);

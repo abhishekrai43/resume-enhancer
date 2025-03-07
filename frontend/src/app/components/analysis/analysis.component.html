@@ -1,0 +1,39 @@
+<section class="analysis-page">
+  <div class="analysis-container">
+    <h2>📊 Full Resume Analysis</h2>
+
+    <!-- ❌ Errors Section -->
+    <div class="analysis-section errors-section">
+      <h3>❌ Errors</h3>
+      <ul class="error-list">
+        <li *ngFor="let error of errors">
+          <span class="error-title">{{ error.error }}</span>
+          <p class="error-description">{{ error.explanation }}</p>
+        </li>
+        <li *ngIf="errors.length === 0" class="no-error">✅ No spelling/grammar mistakes found.</li>
+      </ul>
+    </div>
+
+    <!-- ✨ Suggested Improvements Section -->
+    <div class="analysis-section improvements-section">
+      <h3>✨ Suggested Improvements</h3>
+      <div class="improvements-grid">
+        <div *ngFor="let improvement of improvements" class="improvement-card">
+          <h4 class="improvement-title">{{ improvement.suggestion }}</h4>
+          <p class="improvement-reason">{{ improvement.reason }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📜 Suggested Keywords Section -->
+    <div class="analysis-section keywords-section">
+      <h3>📜 Suggested Keywords for ATS Optimization</h3>
+      <div class="keywords-box">
+        <span *ngFor="let keyword of keywords" class="keyword-tag">{{ keyword }}</span>
+      </div>
+    </div>
+    
+    
+    <button class="btn-back" (click)="goBack()">⬅ Back to Dashboard</button>
+  </div>
+</section>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -27,7 +29,7 @@ export class DashboardComponent implements OnInit {
   improvements: string[] = [];
   changes: { before: string; after: string }[] = [];
   downloadUrl: string = ''; 
-  constructor(private http: HttpClient,private sanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient,private sanitizer: DomSanitizer,private router: Router) {}
 
   ngOnInit() {
     const token = localStorage.getItem('access_token');
@@ -165,84 +167,68 @@ export class DashboardComponent implements OnInit {
 }
 
   
-  // Enhance the selected resume with an animation
+enhanceResume() {
+  if (!this.selectedResume) {
+      this.showModal('❌ Please select a resume to analyze.');
+      return;
+  }
 
-  enhanceResume() {
-    if (!this.selectedResume) {
-        this.showModal('Please select a resume to enhance.');
-        return;
-    }
+  this.isEnhancing = true;
+  this.enhancementStep = "✨ Analyzing resume...";
 
-    this.isEnhancing = true;
+  // ✅ Call Backend API for AI Analysis
+  this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, {}, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          "Content-Type": "application/json"
+      },
+      withCredentials: true
+  }).subscribe({
+      next: (response: any) => {
+          this.errors = response.errors || [];
 
-    // Enhancement Steps Animation
-    const steps = [
-      'Analyzing structure...',
-      'Checking spelling...',
-      'Improving formatting...',
-      'Adding keywords...',
-      'Finalizing...'
-    ];
+          // ✅ Ensure `improvements` is an array of objects with "suggestion" and "reason"
+          this.improvements = Array.isArray(response.improvements) 
+              ? response.improvements.map((imp: any) => ({
+                  suggestion: imp.suggestion || imp,  // If API returns plain text, use it as suggestion
+                  reason: imp.reason || "No explanation provided" // Default reason if missing
+              }))
+              : [];
 
-    let stepIndex = 0;
-    this.enhancementStep = steps[stepIndex];
-
-    const interval = setInterval(() => {
-        stepIndex++;
-        if (stepIndex < steps.length) {
-            this.enhancementStep = steps[stepIndex];
-        } else {
-            clearInterval(interval);
-        }
-    }, 1500);
-
-    // Call backend API
-    this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, {}, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            "Content-Type": "application/json"
-        },
-        withCredentials: true
-    }).subscribe({
-        next: (response: any) => {
-            // Populate Errors, Improvements, and Changes
-            this.errors = response.misspelled_words || [];
-            this.improvements = response.improvements || [];
-            if (Array.isArray(response.changes)) {
-              this.changes = response.changes.map((change: any) => {
-                if (typeof change === "string" && change.includes(" → ")) {
-                  const [before, after] = change.split(" → ");
-                  return { before: before.trim(), after: after.trim() };
-                } else if (typeof change === "object" && change.before && change.after) {
-                  return { before: change.before, after: change.after };
-                }
-                return { before: "Unknown", after: "Unknown" };
-              });
-            } else {
-              this.changes = [];
-            }
-            
-            this.downloadUrl = response.download_url;
-
-            // ✅ Update PDF Viewer with enhanced resume
-            if (this.downloadUrl) {
-              const token = localStorage.getItem('access_token');
-              console.log("Final Enhanced Resume URL:", this.downloadUrl);
-              this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.downloadUrl}?token=${token}`);
-            }
+              this.changes = Array.isArray(response.keywords) 
+              ? response.keywords.map((keyword: string) => keyword) // Ensure keywords are strings
+              : [];
             
 
-            // ✅ Show Completion Notification
-            this.showModal("✨ Your Resume has been Awesomefied! ✨");
+          // ✅ Update Right Sidebar with "View Full Analysis"
+          this.enhancementStep = "✔ Analysis Complete! Click below to view.";
+          this.isEnhancing = false;
+          this.showModal("✨ Analysis Completed! Click 'View Full Analysis' to see results.");
+      },
+      error: (error) => {
+          console.error('Failed to analyze resume:', error);
+          this.showModal('❌ Analysis failed.');
+          this.isEnhancing = false;
+      }
+  });
+}
 
-            this.isEnhancing = false;
-        },
-        error: (error) => {
-            console.error('Failed to enhance resume:', error);
-            this.showModal('Failed to enhance resume.');
-            this.isEnhancing = false;
-        }
-    });
+// Function to close the modal
+closeModal() {
+  const modal = document.getElementById('analysisModal');
+  if (modal) {
+    modal.classList.remove('show');
+  }
+}
+
+viewFullAnalysis() {
+  // ✅ Store analysis results before redirecting
+  localStorage.setItem('errors', JSON.stringify(this.errors));
+  localStorage.setItem('improvements', JSON.stringify(this.improvements));
+  localStorage.setItem('missingKeywords', JSON.stringify(this.changes));
+
+  // ✅ Redirect to the analysis page
+  this.router.navigate(['/analysis']);
 }
 
 // Function to download enhanced resume
