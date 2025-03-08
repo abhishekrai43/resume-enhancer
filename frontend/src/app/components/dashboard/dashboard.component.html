@@ -57,9 +57,17 @@
           <span></span><span></span><span></span>
         </div>
       </div>
+      <!-- Job Title Input Field -->
+      <div class="job-title-container">
+        <div class="job-title-input">
+          <label for="jobTitle">Applying for:</label>
+          <input type="text" id="jobTitle" [(ngModel)]="jobTitle" placeholder="e.g., Software Engineer">
+        </div>
 
-      <!-- Enhance Button Positioned After Full PDF -->
-      <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
+        <!-- Enhance Resume Button (Moved Below Input) -->
+        <button *ngIf="selectedResume" class="btn-enhance" (click)="enhanceResume()">Enhance Resume</button>
+      </div>
+
     </main>
 
     <!-- Right Section: Insights -->

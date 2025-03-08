@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   improvements: string[] = [];
   changes: { before: string; after: string }[] = [];
   downloadUrl: string = ''; 
+  jobTitle: string = ''
   constructor(private http: HttpClient,private sanitizer: DomSanitizer,private router: Router) {}
 
   ngOnInit() {
@@ -169,15 +170,42 @@ export class DashboardComponent implements OnInit {
   
 enhanceResume() {
   if (!this.selectedResume) {
-      this.showModal('❌ Please select a resume to analyze.');
+      this.showModal('❌ Please select a resume to enhance.');
+      return;
+  }
+
+  if (!this.jobTitle || this.jobTitle.trim() === '') {
+      this.showModal('❌ Please enter the job title before enhancing your resume.');
       return;
   }
 
   this.isEnhancing = true;
-  this.enhancementStep = "✨ Analyzing resume...";
 
-  // ✅ Call Backend API for AI Analysis
-  this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, {}, {
+  // Enhancement Steps Animation
+  const steps = [
+    '🔍 Analyzing structure...',
+    '📝 Checking spelling & grammar...',
+    '🎨 Improving formatting...',
+    '📌 Adding relevant keywords...',
+    '✨ Finalizing enhancements...'
+  ];
+
+  let stepIndex = 0;
+  this.enhancementStep = steps[stepIndex];
+
+  const interval = setInterval(() => {
+      stepIndex++;
+      if (stepIndex < steps.length) {
+          this.enhancementStep = steps[stepIndex];
+      } else {
+          clearInterval(interval);
+      }
+  }, 1500);
+
+  // ✅ Send Job Title to Backend
+  const requestData = { job_title: this.jobTitle };
+
+  this.http.post(`${this.apiUrl}/enhance/${this.selectedResume.id}`, requestData, {
       headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           "Content-Type": "application/json"
@@ -186,32 +214,63 @@ enhanceResume() {
   }).subscribe({
       next: (response: any) => {
           this.errors = response.errors || [];
+          this.improvements = response.improvements || [];
+          this.changes = response.keywords || [];
 
-          // ✅ Ensure `improvements` is an array of objects with "suggestion" and "reason"
-          this.improvements = Array.isArray(response.improvements) 
-              ? response.improvements.map((imp: any) => ({
-                  suggestion: imp.suggestion || imp,  // If API returns plain text, use it as suggestion
-                  reason: imp.reason || "No explanation provided" // Default reason if missing
-              }))
-              : [];
+          // ✅ Store the correct file URL for downloading
+          this.downloadUrl = response.file_url;
 
-              this.changes = Array.isArray(response.keywords) 
-              ? response.keywords.map((keyword: string) => keyword) // Ensure keywords are strings
-              : [];
-            
+          // ✅ Automatically trigger direct download after processing
+          this.downloadEnhancedResume();
 
-          // ✅ Update Right Sidebar with "View Full Analysis"
-          this.enhancementStep = "✔ Analysis Complete! Click below to view.";
           this.isEnhancing = false;
-          this.showModal("✨ Analysis Completed! Click 'View Full Analysis' to see results.");
+          this.showModal("✨ Your Resume has been Awesomefied! ✨");
       },
       error: (error) => {
-          console.error('Failed to analyze resume:', error);
-          this.showModal('❌ Analysis failed.');
+          console.error('❌ Failed to enhance resume:', error);
+          this.showModal('❌ Enhancement failed.');
           this.isEnhancing = false;
       }
   });
 }
+
+
+
+downloadEnhancedResume() {
+  if (!this.downloadUrl) {
+      this.showModal("❌ No enhanced resume available.");
+      return;
+  }
+
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+      this.showModal("❌ Authentication required. Please log in again.");
+      return;
+  }
+
+  console.log("🔍 Downloading enhanced resume:", this.downloadUrl);
+
+  // ✅ Ensure the correct file is requested
+  this.http.get(this.downloadUrl, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'blob' 
+  }).subscribe({
+      next: (blob) => {
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.setAttribute("download", `enhanced_resume_${this.selectedResume.id}.pdf`); // ✅ Ensure correct filename
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      },
+      error: (error) => {
+          console.error("❌ Failed to download resume:", error);
+          this.showModal("❌ Failed to download resume.");
+      }
+  });
+}
+
+
 
 // Function to close the modal
 closeModal() {
@@ -230,17 +289,6 @@ viewFullAnalysis() {
   // ✅ Redirect to the analysis page
   this.router.navigate(['/analysis']);
 }
-
-// Function to download enhanced resume
-downloadEnhancedResume() {
-  if (!this.downloadUrl) return;
- 
-  const token = localStorage.getItem('access_token');
-  console.log("Download Token:", token);
-  window.open(`${this.downloadUrl}?token=${token}`, "_blank");
-}
-
-
 
   // Sign out the user
   signOut() {
