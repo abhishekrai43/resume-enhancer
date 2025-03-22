@@ -215,7 +215,8 @@ def create_enhanced_resume_pdf(file_path, text_lines):
     flowables = []
     
     # ✅ Extract Candidate's Name from the Resume (First Line)
-    candidate_name = text_lines[0].strip() if text_lines else "Candidate Name"
+    candidate_name = re.sub(r"\*+", "", text_lines[0].strip()) if text_lines else "Candidate Name"
+
     
     # ✅ Add Candidate Name as the Main Title
     flowables.append(Paragraph(candidate_name, name_style))
@@ -224,7 +225,7 @@ def create_enhanced_resume_pdf(file_path, text_lines):
     in_section = False  # Flag to track whether we are inside a section
 
     for line in text_lines[1:]:  # ✅ Skip the first line (since it's the candidate's name)
-        stripped_line = line.strip()
+        stripped_line = line.strip().replace("**", "").replace("*", "")
 
         if stripped_line == "":
             flowables.append(Spacer(1, 10))  # Add space for better readability
