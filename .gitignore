@@ -6,3 +6,4 @@ app/__pycache__/
 # Ignore frontend build files
 frontend/node_modules/
 frontend/dist/
+.env
