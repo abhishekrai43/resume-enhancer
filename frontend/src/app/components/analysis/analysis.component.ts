@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class AnalysisComponent implements OnInit {
   errors: { error: string; explanation: string }[] = [];
   improvements: { suggestion: string; reason: string }[] = [];
-  keywords: string[] = []; // ✅ Fix keywords to string array
+  keywords: string[] = []; 
 
   constructor(private router: Router) {}
 
@@ -24,7 +24,7 @@ export class AnalysisComponent implements OnInit {
 
     this.errors = errorsData ? JSON.parse(errorsData) : [];
     this.improvements = improvementsData ? JSON.parse(improvementsData) : [];
-     // ✅ Ensure keywords are stored as an array of strings
+     //  Ensure keywords are stored as an array of strings
   const rawKeywords = keywordsData ? JSON.parse(keywordsData) : [];
   
   this.keywords = rawKeywords.map((kw: any) => {
@@ -34,15 +34,13 @@ export class AnalysisComponent implements OnInit {
       : String(kw);
   });
 
-  console.log("Keywords Loaded:", this.keywords); // ✅ Debugging log
+  console.log("Keywords Loaded:", this.keywords); 
 
-    // ✅ Remove `**asterisks**` from improvements
     this.improvements = this.improvements.map((imp: any) => ({
-      suggestion: imp.suggestion.replace(/\*\*/g, ""), // Remove asterisks
-      reason: imp.reason.replace(/\*\*/g, "") // Remove asterisks
+      suggestion: imp.suggestion.replace(/\*\*/g, ""), 
+      reason: imp.reason.replace(/\*\*/g, "") 
     }));
 
-    // ✅ Ensure `keywords` are just strings, NOT objects
     this.keywords = this.keywords.map((kw: any) => kw.toString());
   }
 

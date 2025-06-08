@@ -31,7 +31,7 @@ export class LoginComponent {
         });
       },
       error: (error) => {
-        console.error('❌ Login failed', error);
+        console.error(' Login failed', error);
         alert(error.error?.error || 'Invalid email or password');
       }
     });

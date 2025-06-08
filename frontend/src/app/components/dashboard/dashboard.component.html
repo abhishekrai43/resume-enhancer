@@ -1,8 +1,9 @@
 <!-- Global Loading Animation -->
 <div class="global-loader" *ngIf="isLoading">
   <div class="bouncing-balls">
-    <span></span>
-    <span></span>
+    <div class="ball"></div>
+    <div class="ball"></div>
+    <div class="ball"></div>
   </div>
 </div>
 
@@ -30,8 +31,16 @@
     <aside class="sidebar">
       <h3>Your Resumes</h3>
       <ul *ngIf="resumes.length > 0">
-        <li *ngFor="let resume of resumes" (click)="selectResume(resume)" [class.active]="resume === selectedResume">
-          {{ resume.title }}
+        <li *ngFor="let resume of resumes" [class.active]="resume === selectedResume">
+          <span class="resume-title" (click)="selectResume(resume)">
+            {{ resume.title }}
+          </span>
+          <button class="btn-delete" (click)="deleteResume(resume.id)" title="Delete Resume">
+            <!-- Bin/Trash Icon SVG -->
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6"/>
+            </svg>
+          </button>
         </li>
       </ul>
       <div class="upload-box">
@@ -83,18 +92,11 @@
       </div>
     </div>
 
-<!-- Analysis Completed Modal -->
-<div id="analysisModal" class="custom-modal">
-  <div class="modal-content">
-    <p id="analysisText"></p>
-    <button class="btn-close" (click)="closeModal()">OK</button>
   </div>
-</div>
+</section>
 
-  <!-- Modal for messages -->
-  <div id="customModal" class="custom-modal">
-    <div class="modal-content">
-      <p id="modalText"></p>
-    </div>
-  </div>
+<!-- Modal for messages -->
+<div id="customModal" class="custom-modal">
+  <p id="modalText"></p>
+</div>
 

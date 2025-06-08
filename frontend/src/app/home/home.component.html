@@ -5,7 +5,7 @@
       <p>Upload your resume, and let AI transform it into a professional masterpiece.</p>
     </div>
 
-    <!-- ✅ Login Form -->
+    <!--  Login Form -->
     <div class="login-box">
       <h3 class="text-center">Login</h3>
       <form (ngSubmit)="onLogin()">
@@ -26,7 +26,7 @@
   </div>
 </section>
 
-<!-- ✅ Modal for Success/Error Messages -->
+<!--  Modal for Success/Error Messages -->
 <div class="app-modal" *ngIf="showModal">
   <div class="modal-content" [ngClass]="{'success': modalType === 'success', 'error': modalType === 'error'}">
     <p>{{ modalMessage }}</p>
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<!-- ✅ Register Modal -->
+<!--  Register Modal -->
 <div class="modal-overlay" *ngIf="showRegisterModal">
   <div class="modal-content">
     <span class="close" (click)="toggleRegisterModal()">&times;</span>

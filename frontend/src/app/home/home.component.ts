@@ -14,7 +14,7 @@ import { RegisterComponent } from '../components/register/register.component';
 })
 export class HomeComponent {
   showRegisterModal = false;
-  registerComponent: any = null; // ✅ Correct variable name
+  registerComponent: any = null; 
   showModal = false;
   modalMessage = '';
   modalType: 'success' | 'error' = 'success';
@@ -39,7 +39,7 @@ export class HomeComponent {
   }
 
   onLogin() {
-    console.log("✅ Attempting Login...", this.loginData);
+    console.log(" Attempting Login...", this.loginData);
 
     if (!this.loginData.email || !this.loginData.password) {
       this.showModalMessage("Email and Password are required!", "error");
@@ -48,7 +48,7 @@ export class HomeComponent {
 
     this.http.post(this.apiUrl, this.loginData).subscribe({
       next: (response: any) => {
-        console.log("✅ Login Successful", response);
+        console.log(" Login Successful", response);
         localStorage.setItem("access_token", response.access_token);
         this.showModalMessage("Login successful! Redirecting to dashboard...", "success");
         setTimeout(() => this.router.navigate(['/dashboard']), 1500);
