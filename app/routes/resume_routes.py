@@ -7,6 +7,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.user_model import User
 from app.models.resume_model import Resume
 from app import db
+from app.config import Config
 import io
 from flask_cors import cross_origin
 import jwt
@@ -16,10 +17,49 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+import time  # ✅ Add time for rate limiting
+from openai import RateLimitError, APIError  # ✅ Import OpenAI exceptions
+import logging  # ✅ Add logging import
 
 resume_routes = Blueprint('resume_routes', __name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# ✅ Initialize OpenAI client with debugging and disabled retries
+print(f"🔍 Debug: Loading OpenAI API Key...")
+Config.debug_api_key()  # Debug the API key loading
+client = OpenAI(
+    api_key=Config.OPENAI_API_KEY,
+    max_retries=0  # ✅ Disable OpenAI SDK retries to avoid conflicts
+)
+print(f"✅ OpenAI client initialized successfully")
+
+# ✅ Add rate limiting helper function with better error handling
+def call_openai_with_retry(messages, max_retries=3, base_delay=2):
+    """Call OpenAI API with exponential backoff retry logic"""
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=messages,
+                max_tokens=4096
+            )
+            return response
+        except RateLimitError as e:
+            if attempt == max_retries - 1:
+                logging.error(f"🚨 Max retries exceeded. OpenAI quota likely exhausted.")
+                raise e
+            wait_time = base_delay * (2 ** attempt)
+            logging.warning(f"⚠️ Rate limit hit (attempt {attempt + 1}/{max_retries}), waiting {wait_time} seconds...")
+            time.sleep(wait_time)
+        except APIError as e:
+            logging.error(f"🚨 OpenAI API Error: {str(e)}")
+            raise e
+        except Exception as e:
+            logging.error(f"🚨 Unexpected error: {str(e)}")
+            raise e
+    
+    raise Exception("Max retries exceeded")
 
 # ✅ Get User Resumes
 @resume_routes.route('/list', methods=['GET'])
@@ -329,17 +369,28 @@ def enhance_resume(resume_id):
             f"{extracted_text}"
         )
 
-        # ✅ Send Request to OpenAI
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "system", "content": "You are a professional resume optimizer."},
-                      {"role": "user", "content": prompt}],
-            max_tokens=4096
-        )
+        # ✅ Send Request to OpenAI with retry logic
+        try:
+            response = call_openai_with_retry([
+                {"role": "system", "content": "You are a professional resume optimizer."},
+                {"role": "user", "content": prompt}
+            ])
+        except RateLimitError:
+            return jsonify({
+                "error": "OpenAI API quota exceeded. Please check your billing plan at https://platform.openai.com/account/billing",
+                "error_type": "quota_exceeded"
+            }), 429
+        except APIError as e:
+            return jsonify({
+                "error": f"OpenAI API error: {str(e)}",
+                "error_type": "api_error"
+            }), 500
 
         ai_response = response.choices[0].message.content.strip()
         logging.debug(f"📌 AI Response Preview: {ai_response[:100]}...")
-
+        print("\n========== RAW AI RESPONSE ==========")
+        print(ai_response)
+        print("========== END RAW AI RESPONSE ==========")
         # ✅ Extract Sections Correctly
         sections = {"errors": [], "keywords": [], "improvements": []}
 

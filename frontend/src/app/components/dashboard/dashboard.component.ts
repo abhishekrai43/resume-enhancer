@@ -212,22 +212,37 @@ enhanceResume() {
       withCredentials: true
   }).subscribe({
       next: (response: any) => {
-          this.errors = response.errors || [];
-          this.improvements = response.improvements || [];
-          this.changes = response.keywords || [];
-
+          // Debug: Log backend response
+          console.log('Enhance response:', response);
+          // Assign arrays directly from backend response
+          this.errors = Array.isArray(response.errors) ? response.errors : [];
+          this.improvements = Array.isArray(response.improvements) ? response.improvements : [];
+          this.changes = Array.isArray(response.keywords) ? response.keywords : [];
+          // Store analysis results immediately after enhancement, before any state reset
+          localStorage.setItem('errors', JSON.stringify(this.errors));
+          localStorage.setItem('improvements', JSON.stringify(this.improvements));
+          localStorage.setItem('missingKeywords', JSON.stringify(this.changes));
+          // Debug: Log what will be stored
+          console.log('Errors to store:', this.errors);
+          console.log('Improvements to store:', this.improvements);
+          console.log('Keywords to store:', this.changes);
+          // Store only arrays in localStorage
+          localStorage.setItem('errors', JSON.stringify(this.errors));
+          localStorage.setItem('improvements', JSON.stringify(this.improvements));
+          localStorage.setItem('missingKeywords', JSON.stringify(this.changes));
           //  Store the correct file URL for downloading
           this.downloadUrl = response.file_url;
 
           this.isEnhancing = false;
           clearInterval(interval);
 
+          // Store analysis results immediately after enhancement, before clearing state
+          localStorage.setItem('errors', JSON.stringify(this.errors));
+          localStorage.setItem('improvements', JSON.stringify(this.improvements));
+          localStorage.setItem('missingKeywords', JSON.stringify(this.changes));
           //  Automatically trigger direct download after processing
           this.downloadEnhancedResume().then(() => {
-              // Show success modal after download completes
               this.showModal("✨ Your Resume has been Awesomefied! ✨");
-              
-              // Reset state after everything is complete
               setTimeout(() => {
                   this.resetEnhancementState();
               }, 1000);
@@ -243,7 +258,6 @@ enhanceResume() {
           console.error(' Failed to enhance resume:', error);
           this.showModal(' Enhancement failed.');
           this.isEnhancing = false;
-          // Reset state even on error
           this.resetEnhancementState();
       }
   });
@@ -319,12 +333,7 @@ closeModal() {
 }
 
 viewFullAnalysis() {
-  //  Store analysis results before redirecting
-  localStorage.setItem('errors', JSON.stringify(this.errors));
-  localStorage.setItem('improvements', JSON.stringify(this.improvements));
-  localStorage.setItem('missingKeywords', JSON.stringify(this.changes));
-
-  //  Redirect to the analysis page
+  // Only navigate, do NOT overwrite localStorage or clear state here
   this.router.navigate(['/analysis']);
 }
 

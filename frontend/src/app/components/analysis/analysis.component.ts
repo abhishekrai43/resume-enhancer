@@ -24,24 +24,11 @@ export class AnalysisComponent implements OnInit {
 
     this.errors = errorsData ? JSON.parse(errorsData) : [];
     this.improvements = improvementsData ? JSON.parse(improvementsData) : [];
-     //  Ensure keywords are stored as an array of strings
-  const rawKeywords = keywordsData ? JSON.parse(keywordsData) : [];
-  
-  this.keywords = rawKeywords.map((kw: any) => {
-    // Ensure each keyword is extracted as a string
-    return typeof kw === 'object' && kw.before && kw.after 
-      ? `${kw.after}` 
-      : String(kw);
-  });
+    this.keywords = keywordsData ? JSON.parse(keywordsData) : [];
 
-  console.log("Keywords Loaded:", this.keywords); 
-
-    this.improvements = this.improvements.map((imp: any) => ({
-      suggestion: imp.suggestion.replace(/\*\*/g, ""), 
-      reason: imp.reason.replace(/\*\*/g, "") 
-    }));
-
-    this.keywords = this.keywords.map((kw: any) => kw.toString());
+    console.log('Errors loaded:', this.errors);
+    console.log('Improvements loaded:', this.improvements);
+    console.log('Keywords loaded:', this.keywords);
   }
 
   // Navigate back to the dashboard
