@@ -9,7 +9,7 @@ auth_routes = Blueprint("auth_routes", __name__)
 @auth_routes.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    name = data.get("name")  # ✅ Get Name from Request
+    name = data.get("name")  #  Get Name from Request
     email = data.get("email")
     password = data.get("password")
 
@@ -21,7 +21,7 @@ def register():
     if existing_user:
         return jsonify({"error": "User already exists"}), 400
 
-    new_user = User(name=name, email=email)  # ✅ Save Name
+    new_user = User(name=name, email=email)  #  Save Name
     new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
@@ -57,14 +57,14 @@ def upload_profile_pic():
     if not user_id or not image:
         return jsonify({"error": "User ID and profile picture are required"}), 400
 
-    # ✅ Read the image data as bytes
+    #  Read the image data as bytes
     image_data = image.read()
 
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    # ✅ Save image data in the database
+    #  Save image data in the database
     user.profile_pic = image_data
     db.session.commit()
 
@@ -77,6 +77,6 @@ def get_profile_pic(user_id):
     if not user or not user.profile_pic:
         return jsonify({"error": "No profile picture found"}), 404
 
-    # ✅ Serve the image data as a response
+    #  Serve the image data as a response
     from flask import Response
     return Response(user.profile_pic, mimetype='image/jpeg')

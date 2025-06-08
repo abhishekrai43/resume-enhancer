@@ -9,11 +9,11 @@ _A cutting-edge AI-powered tool to enhance resumes, built with **Angular** (Fron
 Resume Enhancer with AI is a **modern web application** that allows users to **upload resumes and enhance them using AI**. This tool leverages **Flask for backend** API processing, **Angular for an interactive UI**, and **PostgreSQL** for database storage.
 
 ### **Key Features** 🎯
-✅ **AI-powered resume enhancement** 🧠  
-✅ **Secure authentication (JWT)** 🔒  
-✅ **Responsive UI with Angular standalone components** 🎨  
-✅ **Database integration using PostgreSQL** 🗄️  
-✅ **RESTful API with Flask** 🚀  
+ **AI-powered resume enhancement** 🧠  
+ **Secure authentication (JWT)** 🔒  
+ **Responsive UI with Angular standalone components** 🎨  
+ **Database integration using PostgreSQL** 🗄️  
+ **RESTful API with Flask** 🚀  
 
 
 ---
@@ -83,6 +83,6 @@ Deploy on Render, GCP App Engine, or AWS Lambda.
 🛠 Contributing
 Fork the repository 🍴
 Create a branch (feature-new-ui) 🌿
-Commit changes (git commit -m "Improved UI responsiveness") ✅
+Commit changes (git commit -m "Improved UI responsiveness") 
 Push the branch (git push origin feature-new-ui) 🚀
 Create a PR 🎉

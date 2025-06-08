@@ -10,31 +10,30 @@ from app import db
 from app.config import Config
 import io
 from flask_cors import cross_origin
-import jwt
 import json
 from PyPDF2 import PdfReader
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-import time  # ✅ Add time for rate limiting
-from openai import RateLimitError, APIError  # ✅ Import OpenAI exceptions
-import logging  # ✅ Add logging import
+import time  
+from openai import RateLimitError, APIError  
+import logging  
 
 resume_routes = Blueprint('resume_routes', __name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ✅ Initialize OpenAI client with debugging and disabled retries
+#  Initialize OpenAI client with debugging and disabled retries
 print(f"🔍 Debug: Loading OpenAI API Key...")
 Config.debug_api_key()  # Debug the API key loading
 client = OpenAI(
     api_key=Config.OPENAI_API_KEY,
-    max_retries=0  # ✅ Disable OpenAI SDK retries to avoid conflicts
+    max_retries=0  #  Disable OpenAI SDK retries to avoid conflicts
 )
-print(f"✅ OpenAI client initialized successfully")
+print(f" OpenAI client initialized successfully")
 
-# ✅ Add rate limiting helper function with better error handling
+#  Add rate limiting helper function with better error handling
 def call_openai_with_retry(messages, max_retries=3, base_delay=2):
     """Call OpenAI API with exponential backoff retry logic"""
     for attempt in range(max_retries):
@@ -47,21 +46,21 @@ def call_openai_with_retry(messages, max_retries=3, base_delay=2):
             return response
         except RateLimitError as e:
             if attempt == max_retries - 1:
-                logging.error(f"🚨 Max retries exceeded. OpenAI quota likely exhausted.")
+                logging.error(f" Max retries exceeded. OpenAI quota likely exhausted.")
                 raise e
             wait_time = base_delay * (2 ** attempt)
             logging.warning(f"⚠️ Rate limit hit (attempt {attempt + 1}/{max_retries}), waiting {wait_time} seconds...")
             time.sleep(wait_time)
         except APIError as e:
-            logging.error(f"🚨 OpenAI API Error: {str(e)}")
+            logging.error(f" OpenAI API Error: {str(e)}")
             raise e
         except Exception as e:
-            logging.error(f"🚨 Unexpected error: {str(e)}")
+            logging.error(f" Unexpected error: {str(e)}")
             raise e
     
     raise Exception("Max retries exceeded")
 
-# ✅ Get User Resumes
+#  Get User Resumes
 @resume_routes.route('/list', methods=['GET'])
 @jwt_required()
 def list_resumes():
@@ -101,7 +100,7 @@ def get_user_profile():
         "profile_pic": profile_pic_base64
     })
 
-# ✅ Upload Resume with Binary File Storage
+#  Upload Resume with Binary File Storage
 @resume_routes.route("/upload", methods=["POST"])
 @jwt_required()
 def upload_resume():
@@ -125,7 +124,7 @@ def upload_resume():
     return jsonify({"message": "Resume uploaded successfully!"})
 
 
-# ✅ Adjust user-resumes to include the PDF URL
+#  Adjust user-resumes to include the PDF URL
 @resume_routes.route("/user-resumes", methods=["GET"])
 @jwt_required()
 def get_user_resumes():
@@ -146,7 +145,7 @@ def get_user_resumes():
     return jsonify(resumes)
 
 
-# ✅ Upload Profile Picture (Directly into DB as Binary Data)
+#  Upload Profile Picture (Directly into DB as Binary Data)
 @resume_routes.route("/upload-profile-pic", methods=["POST"])
 @jwt_required()
 def upload_profile_pic():
@@ -200,7 +199,7 @@ def draw_oval_background(canvas, doc):
     width, height = doc.pagesize
     canvas.saveState()
     
-    # ✅ Lighter Shades of Blue
+    #  Lighter Shades of Blue
     canvas.setFillColorRGB(0.85, 0.92, 0.98)  # Very Light Blue
     canvas.ellipse(-width * 0.4, height * 0.05, width * 1.2, height * 0.7, fill=True, stroke=False)
 
@@ -210,34 +209,34 @@ def draw_oval_background(canvas, doc):
     canvas.restoreState()
 
 
-import re  # ✅ Import regex to detect Markdown-style headers
+import re  #  Import regex to detect Markdown-style headers
 
-import random  # ✅ Import to generate random colors
-import re  # ✅ Import regex to detect Markdown-style headers
+import random  #  Import to generate random colors
+import re  #  Import regex to detect Markdown-style headers
 
-# ✅ Define a list of professional colors for section headers
+#  Define a list of professional colors for section headers
 HEADER_COLORS = [
     colors.darkblue, colors.darkgreen, colors.darkred, colors.purple,
     colors.teal, colors.orange, colors.brown
 ]
 
-# ✅ Choose a single elegant color for the candidate's name
+#  Choose a single elegant color for the candidate's name
 NAME_COLOR = colors.darkblue  
 
-import random  # ✅ Import to generate random colors
-import re  # ✅ Import regex to detect Markdown-style headers
+import random  #  Import to generate random colors
+import re  #  Import regex to detect Markdown-style headers
 
-# ✅ Define a list of professional colors for section headers
+#  Define a list of professional colors for section headers
 HEADER_COLORS = [
     colors.darkblue, colors.darkgreen, colors.darkred, colors.purple,
     colors.teal, colors.orange, colors.brown
 ]
 
-# ✅ Choose a single elegant color for the candidate's name
+#  Choose a single elegant color for the candidate's name
 NAME_COLOR = colors.darkblue  
 
 def create_enhanced_resume_pdf(file_path, text_lines):
-    margin = 50  # ✅ Define margin for better layout
+    margin = 50  #  Define margin for better layout
 
     doc = SimpleDocTemplate(file_path, pagesize=letter,
                             rightMargin=margin, leftMargin=margin,
@@ -245,44 +244,44 @@ def create_enhanced_resume_pdf(file_path, text_lines):
     
     styles = getSampleStyleSheet()
 
-    # ✅ Improved Text Formatting
+    #  Improved Text Formatting
     name_style = ParagraphStyle('NameStyle', parent=styles['Title'], fontSize=24, textColor=NAME_COLOR, 
-                                spaceAfter=25, alignment=1, bold=True)  # ✅ Centered, Large, Elegant Name
+                                spaceAfter=25, alignment=1, bold=True)  #  Centered, Large, Elegant Name
     bullet_style = ParagraphStyle('BulletStyle', parent=styles['Normal'], fontSize=12, textColor=colors.black, 
                                   leftIndent=25, spaceBefore=5, leading=14, bulletIndent=10)
     normal_style = ParagraphStyle('NormalStyle', parent=styles['Normal'], fontSize=12, textColor=colors.black, leading=14)
 
     flowables = []
     
-    # ✅ Extract Candidate's Name from the Resume (First Line)
+    #  Extract Candidate's Name from the Resume (First Line)
     candidate_name = re.sub(r"\*+", "", text_lines[0].strip()) if text_lines else "Candidate Name"
 
     
-    # ✅ Add Candidate Name as the Main Title
+    #  Add Candidate Name as the Main Title
     flowables.append(Paragraph(candidate_name, name_style))
     flowables.append(Spacer(1, 12))  # Add space after name
 
     in_section = False  # Flag to track whether we are inside a section
 
-    for line in text_lines[1:]:  # ✅ Skip the first line (since it's the candidate's name)
+    for line in text_lines[1:]:  #  Skip the first line (since it's the candidate's name)
         stripped_line = line.strip().replace("**", "").replace("*", "")
 
         if stripped_line == "":
             flowables.append(Spacer(1, 10))  # Add space for better readability
-        elif re.match(r"^\*\*(.*?)\*\*$", stripped_line):  # ✅ Detect Markdown Headers like **TEXT**
-            section_title = re.sub(r"^\*\*(.*?)\*\*$", r"\1", stripped_line)  # ✅ Remove `**`
+        elif re.match(r"^\*\*(.*?)\*\*$", stripped_line):  #  Detect Markdown Headers like **TEXT**
+            section_title = re.sub(r"^\*\*(.*?)\*\*$", r"\1", stripped_line)  #  Remove `**`
             
-            # ✅ Pick a random color for the header
+            #  Pick a random color for the header
             header_color = random.choice(HEADER_COLORS)
 
-            # ✅ Define a dynamic section style with different colors
+            #  Define a dynamic section style with different colors
             dynamic_section_style = ParagraphStyle('DynamicSectionStyle', parent=styles['Heading2'], 
                                                    fontSize=16, textColor=header_color, bold=True, spaceAfter=10)
 
             flowables.append(Paragraph(section_title, dynamic_section_style))
             in_section = True  # Next lines are likely bullet points
-        elif stripped_line.endswith(":"):  # ✅ Section Titles without `**`
-            # ✅ Pick a random color for the header
+        elif stripped_line.endswith(":"):  #  Section Titles without `**`
+            #  Pick a random color for the header
             header_color = random.choice(HEADER_COLORS)
 
             dynamic_section_style = ParagraphStyle('DynamicSectionStyle', parent=styles['Heading2'], 
@@ -290,18 +289,18 @@ def create_enhanced_resume_pdf(file_path, text_lines):
 
             flowables.append(Paragraph(stripped_line, dynamic_section_style))
             in_section = True  # Next lines are likely bullet points
-        elif stripped_line.startswith("- ") or (in_section and "," in stripped_line):  # ✅ Bullet Points or Comma Lists
+        elif stripped_line.startswith("- ") or (in_section and "," in stripped_line):  #  Bullet Points or Comma Lists
             bullet_items = stripped_line.split(", ") if "," in stripped_line else [stripped_line]
             for bullet in bullet_items:
                 bullet = bullet.replace("- ", "").strip()
                 flowables.append(Paragraph(f"• {bullet}", bullet_style))
-        else:  # ✅ Normal Text
+        else:  #  Normal Text
             flowables.append(Paragraph(stripped_line, normal_style))
             in_section = False  # Reset flag
 
         flowables.append(Spacer(1, 6))  # Space between entries
 
-    # ✅ Add Footer with Candidate Name & Date
+    #  Add Footer with Candidate Name & Date
     footer_text = f"{candidate_name} | Enhanced on {datetime.now().strftime('%Y-%m-%d')}"
     flowables.append(Spacer(1, 20))
     flowables.append(Paragraph(footer_text, styles['Italic']))
@@ -320,15 +319,15 @@ def enhance_resume(resume_id):
         resume = db.session.get(Resume, resume_id)
 
         if not resume or resume.user_id != int(user_id):
-            logging.error("🚨 Resume not found or unauthorized access.")
+            logging.error(" Resume not found or unauthorized access.")
             return jsonify({"error": "Resume not found or unauthorized"}), 403
 
-        # ✅ Get User Input: Job Title
+        #  Get User Input: Job Title
         job_title = request.json.get("job_title")
         if not job_title:
             return jsonify({"error": "Job title is required for optimization"}), 400
 
-        # ✅ Extract Text from PDF
+        #  Extract Text from PDF
         temp_pdf_path = os.path.join(UPLOAD_FOLDER, f"resume_{resume_id}.pdf")
         with open(temp_pdf_path, "wb") as f:
             f.write(resume.file_data)
@@ -339,7 +338,7 @@ def enhance_resume(resume_id):
         if not extracted_text:
             return jsonify({"error": "No text extracted from the resume"}), 400
 
-        # ✅ AI Enhancement Prompt
+        #  AI Enhancement Prompt
         prompt = (
             f"Rewrite and optimize the following resume for the job position '{job_title}'.\n"
             "- Ensure strong action verbs and concise language.\n"
@@ -369,7 +368,7 @@ def enhance_resume(resume_id):
             f"{extracted_text}"
         )
 
-        # ✅ Send Request to OpenAI with retry logic
+        #  Send Request to OpenAI with retry logic
         try:
             response = call_openai_with_retry([
                 {"role": "system", "content": "You are a professional resume optimizer."},
@@ -391,7 +390,7 @@ def enhance_resume(resume_id):
         print("\n========== RAW AI RESPONSE ==========")
         print(ai_response)
         print("========== END RAW AI RESPONSE ==========")
-        # ✅ Extract Sections Correctly
+        #  Extract Sections Correctly
         sections = {"errors": [], "keywords": [], "improvements": []}
 
         if "**Errors (With Explanations):**" in ai_response:
@@ -402,20 +401,20 @@ def enhance_resume(resume_id):
             if "**Improvements (With Reasons):**" in parts:
                 sections["keywords"], sections["improvements"] = parts.split("**Improvements (With Reasons):**", 1)
 
-            # ✅ Process Errors
+            #  Process Errors
             sections["errors"] = [{"error": e.split(":")[0].strip(), "explanation": e.split(":")[1].strip()} 
                                   for e in sections["errors"].strip().split("\n") if ":" in e]
 
-            # ✅ Process Keywords
+            #  Process Keywords
             sections["keywords"] = [i.strip("- ") for i in sections["keywords"].strip().split("\n") if i]
 
-            # ✅ Process Improvements
+            #  Process Improvements
             sections["improvements"] = [{"suggestion": i.split(":")[0].strip(), "reason": i.split(":")[1].strip()}
                                         for i in sections["improvements"].strip().split("\n") if ":" in i]
         else:
             return jsonify({"error": "AI response missing required sections"}), 500
 
-        # ✅ Extract the AI-enhanced resume content
+        #  Extract the AI-enhanced resume content
         if "<BEGIN RESUME>" in ai_response and "<END RESUME>" in ai_response:
             enhanced_resume_text = ai_response.split("<BEGIN RESUME>")[1].split("<END RESUME>")[0].strip()
         else:
@@ -423,34 +422,34 @@ def enhance_resume(resume_id):
 
         enhanced_resume_lines = enhanced_resume_text.split("\n")
 
-        # ✅ Generate the Final PDF
+        #  Generate the Final PDF
         final_pdf_path = os.path.join(UPLOAD_FOLDER, f"enhanced_resume_{resume_id}.pdf")
         create_enhanced_resume_pdf(final_pdf_path, enhanced_resume_lines)  
 
-        # ✅ Store Enhanced Resume & AI Feedback in Database
+        #  Store Enhanced Resume & AI Feedback in Database
         with open(final_pdf_path, "rb") as f:
             resume.enhanced_file_data = f.read()
 
-        resume.errors = json.dumps(sections["errors"])   # ✅ Convert list of dicts to JSON
-        resume.keywords = ",".join(sections["keywords"])  # ✅ Convert list to string
-        resume.improvements = json.dumps(sections["improvements"])  # ✅ Convert list of dicts to JSON
+        resume.errors = json.dumps(sections["errors"])   #  Convert list of dicts to JSON
+        resume.keywords = ",".join(sections["keywords"])  #  Convert list to string
+        resume.improvements = json.dumps(sections["improvements"])  #  Convert list of dicts to JSON
 
         db.session.commit()
 
         return jsonify({
             "message": "Resume enhancement complete!",
-            "file_url": f"http://localhost:5001/resume/download/enhanced_resume_{resume_id}.pdf",  # ✅ Correct filename
+            "file_url": f"http://localhost:5001/resume/download/enhanced_resume_{resume_id}.pdf",  #  Correct filename
             "errors": json.loads(resume.errors) if resume.errors else [],
             "keywords": resume.keywords.split(",") if resume.keywords else [],
             "improvements": json.loads(resume.improvements) if resume.improvements else []
         })
 
     except Exception as e:
-        logging.error(f"🚨 Unexpected error: {str(e)}")
+        logging.error(f" Unexpected error: {str(e)}")
         return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
 
 
-import glob  # ✅ Import glob to find the latest file
+import glob  #  Import glob to find the latest file
 
 @resume_routes.route("/download/<string:filename>", methods=["GET"])
 @jwt_required()
@@ -459,18 +458,18 @@ def download_enhanced_resume(filename):
 
     user_id = get_jwt_identity()
 
-    # ✅ Ensure filename has .pdf extension
+    #  Ensure filename has .pdf extension
     if not filename.endswith(".pdf"):
         filename += ".pdf"
 
-    # ✅ Ensure the file exists in uploads/
+    #  Ensure the file exists in uploads/
     file_path = os.path.join(UPLOAD_FOLDER, filename)
 
     if not os.path.exists(file_path):
         logging.error(f"❌ Enhanced resume file not found: {file_path}")
         return jsonify({"error": "Enhanced resume file not found"}), 404
 
-    logging.info(f"✅ Serving enhanced resume: {file_path}")
+    logging.info(f" Serving enhanced resume: {file_path}")
     return send_file(file_path, mimetype="application/pdf", as_attachment=True)
 
 

@@ -7,7 +7,7 @@ class Resume(db.Model):
     file_data = db.Column(db.LargeBinary, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    # ✅ New Fields for Enhancements
+    #  New Fields for Enhancements
     enhanced_text = db.Column(db.Text, nullable=True)  # Stores AI-enhanced text
     misspelled_words = db.Column(db.Text, nullable=True)  # Stores misspelled words
     improvements = db.Column(db.Text, nullable=True)  # Stores list of improvements

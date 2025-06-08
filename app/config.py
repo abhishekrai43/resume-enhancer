@@ -20,7 +20,7 @@ class Config:
     def debug_api_key(cls):
         api_key = cls.OPENAI_API_KEY
         if api_key:
-            print(f"✅ OpenAI API Key loaded: {api_key[:10]}...")
+            print(f" OpenAI API Key loaded: {api_key[:10]}...")
             return True
         else:
             print("❌ OpenAI API Key not found!")
